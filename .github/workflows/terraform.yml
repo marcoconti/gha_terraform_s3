@@ -45,3 +45,6 @@ jobs:
     
     - name: Executa o Terraform Plan
       run: terraform plan -var-file="config/dev/terraform.tfvars" -out="tfplan.out" -lock="false"
+
+    - name: Executa o apply para o plan criado anteriomente
+      run: terraform apply "tfplan.out"
