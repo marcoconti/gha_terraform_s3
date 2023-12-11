@@ -11,12 +11,14 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    environment: production
+    env:
+      TF_WORKING_DIR: 'gha_tf_s3'
 
     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
     defaults:
       run:
         shell: bash
+        working-directory: ${{ env.TF_WORKING_DIR }}
 
     steps:
     
@@ -25,7 +27,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Teste Mensagem
-      run: echo Teste Marco Conti
+      run: echo Teste Marco Conti - v2
     
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
