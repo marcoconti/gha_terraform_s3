@@ -3,8 +3,11 @@ name: 'Terraform'
 on:
   workflow_dispatch
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRECT_ACCESS_KEY_ID }}
+
 jobs:
-  
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
@@ -32,5 +35,11 @@ jobs:
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
-      run: terraform init
+      run: terraform init -backend=true -backend-config="config/dev/backend.hcl"
 
+    # Formata os arquiv terraform
+    - name: Terraform format
+      run: terraform fmt
+    
+    - name: Executa o Terraform Plan
+      run: terraform plan -var-file="config/dev/terraform.tfvars" -out="tfplan.out" -lock="false"
